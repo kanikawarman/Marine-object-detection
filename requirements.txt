@@ -1,9 +1,5 @@
-opencv-python==4.10.0.84
-opencv-python-headless==4.10.0.84
-requests==2.32.3
-roboflow==1.1.33
-streamlit==1.41.1
-ultralytics==8.0.196
-ultralytics-thop==2.0.0
-torch==2.5.0
-torchvision==0.20.0
+roboflow==1.1.33 #this is commented requests==2.32.3, opencv-python==4.10.0.84
+streamlit==1.41.1 # this is commented opencv-python-headless==4.10.0.84
+ultralytics==8.0.196 #this is commented ultralytics-thop==2.0.0
+torch==2.5.0 #this is commented torchvision==0.20.0
+
