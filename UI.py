@@ -262,7 +262,8 @@ if uploaded_file:
             with st.expander("📋 Detection Results:"):
                 if detections:
                     for det in detections:
-                        st.write(f"🔹 **Class:** {det['class']} (Label: {det['label']})")
+                        st.write(f"🔹 **Class:** {det['class']}")
+                        # st.write(f"🔹 **Class:** {det['class']} (Label: {det['label']})")
                         st.write(f"🎯 **Confidence:** {det['confidence'] * 100:.2f}%")
                         st.write(f"📍 **Bounding Box:** {det['bounding_box']}")
                         st.markdown("---")

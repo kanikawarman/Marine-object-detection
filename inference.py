@@ -1,21 +1,17 @@
-import torch
+import requests
 import numpy as np
 import cv2
 from PIL import Image
-from ultralytics import YOLO
+import io
 
-# Path to your trained YOLO model weights
-MODEL_PATH = "/Users/kanikawarman/Desktop/Projects/Marine/V5/detect 2/train/weights/best.pt"
-
-# Load YOLOv8 model
-try:
-    model = YOLO(MODEL_PATH)
-except Exception as ex:
-    raise RuntimeError(f"❌ Unable to load model. Check the path: {MODEL_PATH}\nError: {ex}")
+# Roboflow API details
+API_KEY = "zIH1xZbDAKnDSb2cXv77"
+MODEL_ID = "underwater-marine-species/6"
+API_URL = f"https://detect.roboflow.com/{MODEL_ID}"
 
 def run_inference(image: Image.Image, confidence_threshold: float = 0.4):
     """
-    Runs object detection on an image using YOLOv8 and returns the processed image with bounding boxes.
+    Runs object detection using Roboflow API and returns the processed image with detections.
 
     Args:
         image (PIL.Image): The uploaded image.
@@ -26,27 +22,52 @@ def run_inference(image: Image.Image, confidence_threshold: float = 0.4):
             - processed_image (np.ndarray): Image with bounding boxes drawn.
             - detections (list of dict): Detection results with labels, confidence scores, and bounding boxes.
     """
-    if not isinstance(image, Image.Image):
-        raise ValueError("Input should be a PIL Image.")
-
-    # Run YOLO inference
-    results = model.predict(image, conf=confidence_threshold)
     
-    # Extract detected boxes
-    boxes = results[0].boxes
-    detections = []
+    # Convert PIL Image to bytes
+    img_bytes = io.BytesIO()
+    image.save(img_bytes, format="JPEG")
+    img_bytes = img_bytes.getvalue()
 
-    for box in boxes:
-        class_id = int(box.cls.item())  # Get class ID
-        class_name = model.names[class_id]  # Get class name (e.g., "Eel")
+    # Send request to Roboflow API
+    response = requests.post(
+        API_URL,
+        params={"api_key": API_KEY, "confidence": confidence_threshold * 100},  # Convert to percentage
+        files={"file": img_bytes},
+        headers={"Accept": "application/json"}
+    )
+
+    # Parse response
+    if response.status_code != 200:
+        raise RuntimeError(f"❌ Error from Roboflow API: {response.text}")
+
+    result = response.json()
+
+    # Extract detections
+    detections = []
+    for prediction in result.get("predictions", []):
         detections.append({
-            "class": class_name,  # Store class name
-            "label": int(box.cls.item()),  # Class ID (convert to label if needed)
-            "confidence": round(box.conf.item(), 2),  # Store confidence
-            "bounding_box": box.xyxy.tolist()  # Bounding box coordinates
+            "class": prediction["class"],
+            "confidence": round(prediction["confidence"], 2),
+            "bounding_box": [
+                prediction["x"] - prediction["width"] / 2,  # x_min
+                prediction["y"] - prediction["height"] / 2,  # y_min
+                prediction["x"] + prediction["width"] / 2,  # x_max
+                prediction["y"] + prediction["height"] / 2   # y_max
+            ]
         })
 
-    # Draw bounding boxes on the image
-    processed_image = results[0].plot()[:, :, ::-1]  # Convert from BGR to RGB for Streamlit
+    # Convert PIL Image to OpenCV format for drawing
+    image_cv = np.array(image)
+    image_cv = cv2.cvtColor(image_cv, cv2.COLOR_RGB2BGR)
+
+    # Draw bounding boxes
+    for det in detections:
+        x_min, y_min, x_max, y_max = map(int, det["bounding_box"])
+        cv2.rectangle(image_cv, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+        label = f"{det['class']} ({det['confidence']})"
+        cv2.putText(image_cv, label, (x_min, y_min - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+
+    # Convert back to RGB for Streamlit
+    processed_image = cv2.cvtColor(image_cv, cv2.COLOR_BGR2RGB)
 
     return processed_image, detections
