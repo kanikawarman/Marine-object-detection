@@ -3,8 +3,10 @@
 ### **Overview**  
 This project focuses on detecting marine species in underwater environments using **YOLOv8** and deep learning techniques. The model is trained on a **custom-curated dataset** and optimized for real-world aquatic conditions.  
 
-🔹 **Live Demo:** [Streamlit App](https://underwater-marine-object-detection.streamlit.app/)  
-🔹 **Research Paper:** Available in this repository  
+🔹 **Live Demo:** [Streamlit App](https://underwater-marine-object-detection.streamlit.app/)
+
+🔹 **Research Paper:** [Available in this repository](https://github.com/kanikawarman/Marine-object-detection/blob/main/objectID_yolov8.pdf)
+
 🔹 **Dataset:** Hosted on [Roboflow](https://app.roboflow.com/california-state-university-east-bay-wkf0d/underwater-marine-species/browse?queryText=&pageSize=50&startingIndex=0&browseQuery=true)
 
 ---
