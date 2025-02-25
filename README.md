@@ -12,7 +12,7 @@ This project focuses on detecting marine species in underwater environments usin
 ---
 
 ## **1️⃣ Features**  
-✅ Object detection for multiple marine species : Eel, Fish, Jellyfish, Lobster, Lionfish
+✅ Object detection for multiple marine species : Eel, Fish, Jellyfish, Lobster, Lionfish 
 ✅ Optimized for underwater environments  
 ✅ Pretrained YOLOv8 model with fine-tuned weights  
 ✅ Ready-to-use inference (weights available via external link)  
