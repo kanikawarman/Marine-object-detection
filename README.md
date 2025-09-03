@@ -53,7 +53,7 @@ python detect.py --weights path_to_best_weights.pt --source your_image.jpg
 ## **4️⃣ Training the Model**  
 If you want to train the model from scratch using your dataset, follow the script available in `train.py`:  
 ```bash
-python train.py --data dataset.yaml --weights yolov8.pt --epochs 50
+python main.py --data dataset.yaml --weights yolov8.pt --epochs 50
 ```  
 Modify the `dataset.yaml` file to point to your custom dataset on **Roboflow**.  
 
