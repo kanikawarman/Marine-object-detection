@@ -3,15 +3,12 @@
 <!-- One-glance header block -->
 <p align="left">
   <a href="https://www.python.org/"><img alt="Python 3.10+" src="https://img.shields.io/badge/Python-3.10%2B-blue"></a>
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/kanikawarman/Marine-object-detection"></a>
-  <a href="https://github.com/kanikawarman/Marine-object-detection/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/kanikawarman/Marine-object-detection?style=social"></a>
-  <a href="https://github.com/kanikawarman/Marine-object-detection/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/kanikawarman/Marine-object-detection"></a>
   <!-- Update the notebook path if different -->
   <a href="https://colab.research.google.com/github/kanikawarman/Marine-object-detection/blob/main/train.ipynb">
     <img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg">
   </a>
   <!-- If you have a public Streamlit app, put its URL below; otherwise keep only the local run command in README -->
-  <a href="https://YOUR-STREAMLIT-APP-URL">
+  <a href="https://underwater-marine-object-detection.streamlit.app/)">
     <img alt="Open in Streamlit" src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg">
   </a>
 </p>
